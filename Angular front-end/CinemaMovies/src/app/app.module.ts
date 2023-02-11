@@ -11,7 +11,7 @@ import { RegisterComponent } from './Account/register/register.component';
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule ,FormGroup,Validators} from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +26,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
 
   ],
   providers: [],

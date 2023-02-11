@@ -1,6 +1,15 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" />
 <div class="container">
   <br />
+  <br />
+  <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="message!=null && message !=''">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    {{this.message}}
+  </div>
+  <br />
   <hr />
   <div class="card bg-light">
     <article class="card-body mx-auto" style="max-width: 400px">
@@ -16,6 +25,7 @@
         <span class="bg-light">OR</span>
       </p>
       <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <!-- UserName -->
         <div class="form-group input-group">
           <div class="input-group-prepend">
             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
@@ -28,7 +38,10 @@
             required</small>
           <small class="text-danger" *ngIf="registerForm.get('UserName')?.hasError('minlength')">minlength is
             6</small>
+
         </div>
+
+        <!-- Email -->
         <div class="form-group input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">
@@ -44,6 +57,7 @@
           <small class="text-danger " *ngIf="registerForm.get('Email')?.hasError('pattern')"> invalid Email address
           </small>
         </div>
+        <!-- Password -->
         <div class="form-group input-group">
           <div class="input-group-prepend">
             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
@@ -57,13 +71,27 @@
           <small class="text-danger" *ngIf="registerForm.get('Password')?.hasError('minlength')">minlength is
             6</small>
         </div>
+        <!-- Password Confirm -->
+        <div class="form-group input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+          </div>
+          <input formControlName="PasswordConfirm" class="form-control" placeholder=" Confirm Password"
+            type="password" />
+        </div>
+        <div class="alert alert-danger my-2 " *ngIf="isPasswordMatch()&& registerForm.get('Password')?.touched">
+          <small class="text-danger"> Password doesn't match</small>
+        </div>
+        <!-- Submit  -->
         <div class="form-group">
           <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary btn-block">
             Create Account
           </button>
         </div>
-        <p class="text-center">Have an account? <a href="">Log In</a></p>
+        <p class="text-center">Have an account? <a href="login">Log In</a></p>
       </form>
     </article>
+
   </div>
+
 </div>

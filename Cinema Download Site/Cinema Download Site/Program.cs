@@ -1,4 +1,5 @@
 using Cinema_Download_Site.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -14,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 // register DbContext
 builder.Services.AddDbContext<ApplicationDb>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
  
 //register Identity
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
@@ -27,7 +28,30 @@ builder.Services.AddCors(option =>
     {
         builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
-}); 
+});
+
+// To use cookies
+builder.Services.Configure<CookiePolicyOptions>(options => 
+{
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+
+});
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme= CookieAuthenticationDefaults.AuthenticationScheme; ;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme; 
+})
+    .AddCookie(options =>
+    {
+        options.Cookie.HttpOnly= true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        //options.LoginPath= "/Account/Login";
+        options.LogoutPath= "/Account/Logout";
+        //options.AccessDeniedPath = "/Account/AccessDenied";
+        options.SlidingExpiration = true;
+    });
 
 //// if i want custom validation of user table such as if i want accept password RequireNonAlphanumeric etc... 
 //builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(option =>
@@ -55,8 +79,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors();
-app.UseAuthorization();
+
 app.UseAuthentication();   
 app.MapControllers();
+app.UseCookiePolicy();
+app.UseAuthorization();
 
 app.Run();

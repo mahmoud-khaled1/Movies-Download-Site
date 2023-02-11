@@ -2,6 +2,7 @@ import { RegisterServiceService } from './../../services/register-service.servic
 import { RegisterModel } from './../../Models/register-model';
 import { Component, OnInit } from '@angular/core';
 import {FormControl,FormGroup,FormBuilder,Validators} from '@angular/forms';
+import { Users } from 'src/app/Models/user';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -15,33 +16,60 @@ export class RegisterComponent implements OnInit{
       this.reg={
         UserName:'',
         Email:'',
-        Password:''
+        Password:'',
+        PasswordConfirm:''
       }
+      this.allUsers();
+      this.message='';
+
     }
 
     reg:RegisterModel=new RegisterModel();
-
+    users:Users[]=[];
+    message:string='';
     registerForm:FormGroup=new FormGroup({
       'Email':new FormControl(null,[Validators.required,Validators.pattern('([a-z]||[0-9])+@gmail.com')]),
       'UserName':new FormControl(null,[Validators.required,Validators.minLength(6)]),
-      'Password':new FormControl(null,[Validators.required,Validators.minLength(6)])
+      'Password':new FormControl(null,[Validators.required,Validators.minLength(6)]),
+      'PasswordConfirm':new FormControl(null,[Validators.required])
     })
 
     register(){
       // console.log(this.registerForm)
       if(this.registerForm.valid)
       {
-        this.validateRegisterModel();
+        this.FullRegisterModel();
         this.service.Register(this.reg).subscribe(success=>{
-          alert("Regstration Success");
+          this.message="Completed Registration";
+          this.registerForm.reset(); // to empty the form input
         },err=>console.log(err));
       }
     }
-  validateRegisterModel() {
+  FullRegisterModel() {
     this.reg.UserName=this.registerForm.value.UserName;
     this.reg.Email=this.registerForm.value.Email;
     this.reg.Password=this.registerForm.value.Password;
+    this.reg.PasswordConfirm=this.registerForm.value.PasswordConfirm;
   }
+
+   isPasswordMatch(){
+     if(this.registerForm.value.Password !==this.registerForm.value.PasswordConfirm)
+          return true;
+     else
+         return false;
+   }
+   allUsers(){
+    this.service.GetAllUsers().subscribe(list=>{
+      this.users=list;
+      // console.log(this.users);
+    },err=>console.log(err));
+   }
+
+
+
+
+
+
 
 
 

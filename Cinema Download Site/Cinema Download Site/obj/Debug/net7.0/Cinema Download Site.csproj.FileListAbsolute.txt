@@ -274,3 +274,5 @@ E:\Git_Projects\Movies-Download-Site\Cinema Download Site\Cinema Download Site\b
 E:\Git_Projects\Movies-Download-Site\Cinema Download Site\Cinema Download Site\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 E:\Git_Projects\Movies-Download-Site\Cinema Download Site\Cinema Download Site\bin\Debug\net7.0\SendGrid.dll
 E:\Git_Projects\Movies-Download-Site\Cinema Download Site\Cinema Download Site\bin\Debug\net7.0\StarkbankEcdsa.dll
+E:\Git_Projects\Movies-Download-Site\Cinema Download Site\Cinema Download Site\bin\Debug\net7.0\System.Net.Http.Formatting.dll
+E:\Git_Projects\Movies-Download-Site\Cinema Download Site\Cinema Download Site\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
